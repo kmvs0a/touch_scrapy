@@ -13,16 +13,26 @@ class CarDataParserPipeline(object):
         'avito': 'convert_avito'
     }
 
+    def convert_by_dict(self, item, dict):
+        result = {}
+        car_data = item['car_data']
+        for name, value in car_data.items():
+            try:
+                result[dict[name]] = value
+            except Exception as e:
+                raise Exception('disctionary convert error: ' +
+                                e.__class__ + ' : ' + e)
+
+        result.pop('none', None)
+        return result
+
     def convert_avito(self, item):
-        converted = {}
-        car_data_dictionary = CarDataDictionary.avito()
-        for key, value in item['car_data']:
-            a = 1 
-        return item
+        return self.convert_by_dict(item, CarDataDictionary.avito())
 
     def process_item(self, item, spider):
         try:
             pipe_name = self.item_to_converter[spider.name]
-            return getattr(self, pipe_name)(item)
+            converted = getattr(self, pipe_name)(item)
+            return converted
         except KeyError:
             raise DropItem("Missing pipe_name in " + item['_id'])
