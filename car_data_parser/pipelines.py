@@ -5,7 +5,8 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 from scrapy.exceptions import DropItem
-from car_data_parser.parser.car_data_dictionary import CarDataDictionary
+from car_data_parser.car_data_dictionary import CarDataDictionary
+
 
 class CarDataParserPipeline(object):
     item_to_converter = {
@@ -13,14 +14,15 @@ class CarDataParserPipeline(object):
     }
 
     def convert_avito(self, item):
+        converted = {}
         car_data_dictionary = CarDataDictionary.avito()
+        for key, value in item['car_data']:
+            a = 1 
         return item
 
     def process_item(self, item, spider):
         try:
             pipe_name = self.item_to_converter[spider.name]
-            return getattr(self, pipe_name)(item) 
+            return getattr(self, pipe_name)(item)
         except KeyError:
             raise DropItem("Missing pipe_name in " + item['_id'])
-
-    

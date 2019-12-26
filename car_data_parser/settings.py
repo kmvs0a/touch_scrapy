@@ -11,8 +11,8 @@
 
 BOT_NAME = 'car_data_parser'
 
-SPIDER_MODULES = ['car_data_parser.parser.spiders']
-NEWSPIDER_MODULE = 'car_data_parser.parser.spiders'
+SPIDER_MODULES = ['car_data_parser.spiders']
+NEWSPIDER_MODULE = 'car_data_parser.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'car_data_parser.parser.pipelines.CarDataParserPipeline': 300,
+    'car_data_parser.pipelines.CarDataParserPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

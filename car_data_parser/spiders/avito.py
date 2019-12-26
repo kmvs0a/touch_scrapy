@@ -6,6 +6,7 @@ import re
 import unicodedata
 import json
 
+
 class AvitoSpider(Spider):
     avito_ads = []
     name = "avito"
@@ -15,14 +16,13 @@ class AvitoSpider(Spider):
         try:
             ads = self.avito_ads
             if ads is None:
-                raise ValueError('ads is empty') 
- 
+                raise ValueError('ads is empty')
+
             for ad in ads:
-                yield Request(url = ad['url'], meta = {"_id": ad['_id']},callback = self.parse)
+                yield Request(url=ad['url'], meta={"_id": ad['_id']}, callback=self.parse)
 
         except Exception as e:
             raise CloseSpider(e.__class__ + ' : ' + e)
-        
 
     def params_list_convert(self, params):
         car_data = {}
@@ -34,7 +34,6 @@ class AvitoSpider(Spider):
             car_data[arr[0].strip()] = arr[1].strip() if len(arr) > 1 else ''
 
         return car_data
- 
 
     def parse(self, response):
         item = CarDataParserItem()
@@ -46,5 +45,3 @@ class AvitoSpider(Spider):
         item['car_data'] = self.params_list_convert(params)
 
         yield item
-
-    
